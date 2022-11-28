@@ -25,7 +25,7 @@ pipelines:
                   caches:
                       - dotnetcore
                   script:
-                      - cd management-ddnetcore
+                      - cd management-dddnetcore
                       - apt-get update
                       - apt-get install zip -y
                       # Build all
