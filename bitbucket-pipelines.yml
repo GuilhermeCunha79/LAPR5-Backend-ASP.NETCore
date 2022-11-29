@@ -30,6 +30,7 @@ pipelines:
                       - apt-get install zip -y
                       # Build all
                       - dotnet build
+                      - dotnet test
                       # Web
                       - dotnet publish -c Release -o ./publish
                       - cd ./publish
