@@ -25,10 +25,14 @@ pipelines:
                   caches:
                       - dotnetcore
                   script:
-                      - cd management-dddnetcore
                       - apt-get update
                       - apt-get install zip -y
-                      # Build all
+                      # Build all from warehouse management
+                      - cd management-dddnetcore
+                      - dotnet restore
+                      - dotnet build
+                      # Build all and test tests
+                      - cd ..
                       - dotnet restore
                       - dotnet build
                       - dotnet test
