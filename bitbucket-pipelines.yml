@@ -28,7 +28,7 @@ pipelines:
                       - apt-get update
                       - apt-get install zip -y
                       # Build all from warehouse management
-                      - cd warehouse-dddnetcore
+                      - cd management-dddnetcore
                       - dotnet restore
                       - dotnet build
                       # Build all and test tests
