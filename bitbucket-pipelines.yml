@@ -29,6 +29,7 @@ pipelines:
                       - apt-get update
                       - apt-get install zip -y
                       # Build all
+                      - dotnet restore
                       - dotnet build
                       - dotnet test
                       # Web
