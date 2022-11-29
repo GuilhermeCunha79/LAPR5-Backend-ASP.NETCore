@@ -39,14 +39,25 @@ pipelines:
                       # Web
                       - dotnet publish -c Release -o ./publish
                       - cd ./publish
-                  
+                      - zip -r web.zip .
+                  artifacts:
+                          - publish/web.zip
+
             - step:
-                  name: Deploy
+                  name: Deploy to azure
                   deployment: Production
                   trigger: manual
                   
                   script:
                       - pwd
                       - ls
-
-   
+#                      - pipe: microsoft/azure-web-apps-deploy:1.0.3
+#                        variables:
+#                            AZURE_APP_ID: $AZURE_APP_ID
+#                            AZURE_PASSWORD: $AZURE_PASSWORD
+#                            AZURE_TENANT_ID: $AZURE_TENANT_ID
+#                            AZURE_RESOURCE_GROUP: "LAPR5"
+#                            AZURE_APP_NAME: "21S5DD20SocialGame"
+#                            ZIP_FILE: MasterDataSocialNetwork/publish/web.zip
+#
+#   
