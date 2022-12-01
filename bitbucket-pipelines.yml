@@ -1,4 +1,4 @@
-#  Template .NET Core build
+#  Template .NET Core b#  Template .NET Core build
 
 #  This template allows you to validate your .NET Core package.
 #  The workflow allows running tests and code linting on the default branch.
@@ -8,56 +8,45 @@
 
 image: mcr.microsoft.com/dotnet/sdk:6.0
 
-pipelines:
-  default:
-         - step:
-              name: Build and Test
-              caches:
-                  - dotnetcore
-              script:
-                  - dotnet restore
-                  - dotnet build
-                  - dotnet test
-  branches:
-        master:
-            - step:
-                  name: "Package"
-                  caches:
-                      - dotnetcore
-                  script:
-                      - apt-get update
-                      - apt-get install zip -y
-                      # Build all from warehouse management
-                      - cd management-dddnetcore
-                      - dotnet restore
-                      - dotnet build
-                      # Build all and test tests
-                      - cd ..
-                      - dotnet restore
-                      - dotnet build
-                      - dotnet test
-                      # Web
-                      - dotnet publish -c Release -o ./publish
-                      - cd ./publish
-                      - zip -r web.zip .
-                  artifacts:
-                          - publish/web.zip
 
-            - step:
-                  name: Deploy to azure
-                  deployment: Production
-                  trigger: manual
-                  
-                  script:
-                      - pwd
-                      - ls
-#                      - pipe: microsoft/azure-web-apps-deploy:1.0.3
-#                        variables:
-#                            AZURE_APP_ID: $AZURE_APP_ID
-#                            AZURE_PASSWORD: $AZURE_PASSWORD
-#                            AZURE_TENANT_ID: $AZURE_TENANT_ID
-#                            AZURE_RESOURCE_GROUP: "LAPR5"
-#                            AZURE_APP_NAME: "21S5DD20SocialGame"
-#                            ZIP_FILE: MasterDataSocialNetwork/publish/web.zip
-#
-#   
+pipelines:
+  branches:
+    master:
+      - step:
+          name: "Package"
+          caches:
+            - dotnetcore
+          script:
+            - apt-get update
+            - apt-get install zip -y
+            # Build all from warehouse management
+            - cd management-dddnetcore
+            - dotnet restore
+            - dotnet build
+            # Build all and test tests
+            - cd ..
+            - dotnet restore
+            - dotnet build
+            - dotnet test
+            # Web
+            #                      - git archive --format=tar.gz master -o application.tar.gz
+            - git archive --format=tar.gz HEAD:management-dddnetcore/ -o application.tar.gz
+          artifacts:
+            - application.tar.gz
+
+      - step:
+          name: Deploy to heroku
+          deployment: Production
+          #                  trigger: manual
+          
+          script:
+            #                    - cd management-dddnetcore
+            #                    - git push -f https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master
+            #                      - pwd
+            #                      - ls
+            - pipe: atlassian/heroku-deploy:2.0.0
+              variables:
+                HEROKU_API_KEY: $HEROKU_API_KEY
+                HEROKU_APP_NAME: $HEROKU_APP_NAME
+                ZIP_FILE: "application.tar.gz"
+                WAIT: 'true'
