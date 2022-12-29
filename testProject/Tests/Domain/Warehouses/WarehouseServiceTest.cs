@@ -32,6 +32,8 @@ public class WarehouseServiceTest
         var warehouse2 = new Warehouse(new WarehouseId("3F5"),
             new WarehouseDesignation("Armazem2"), "rua das cavadas", 34, "3179-202", " Portugal", 52,
             64, new Altitude(8));
+        string status = "Active";
+
         return new List<WarehouseDTO>
         {
             new WarehouseDTO(warehouse1.Id.AsGuid(), warehouse1.WarehouseIdentifier.WarehouseIdentifier,
@@ -39,13 +41,13 @@ public class WarehouseServiceTest
                 warehouse1.WarehouseAddress.Number,
                 warehouse1.WarehouseAddress.PostalCode, warehouse1.WarehouseAddress.Country,
                 warehouse1.WarehouseCoordinates.Latitude, warehouse1.WarehouseCoordinates.Longitude,
-                warehouse1.Altitude.AltitudeValue),
+                warehouse1.Altitude.AltitudeValue,status),
             new WarehouseDTO(warehouse2.Id.AsGuid(), warehouse2.WarehouseIdentifier.WarehouseIdentifier,
                 warehouse2.WarehouseDesignation.Text, warehouse2.WarehouseAddress.Street,
                 warehouse2.WarehouseAddress.Number,
                 warehouse2.WarehouseAddress.PostalCode, warehouse2.WarehouseAddress.Country,
                 warehouse2.WarehouseCoordinates.Latitude, warehouse2.WarehouseCoordinates.Longitude,
-                warehouse2.Altitude.AltitudeValue)
+                warehouse2.Altitude.AltitudeValue,status)
         };
     }
 
@@ -113,6 +115,30 @@ public class WarehouseServiceTest
         Assert.Equal(warehouse.WarehouseDesignation.Text, get_warehouse.Designation);
     }
 
+    
+    // [Fact]
+    // public async Task Inactivate() 
+    // {
+    //     var warehouse = Warehouse();
+    //     this._repoMock.Setup(repo => repo.GetByDesignationAsync(warehouse.WarehouseDesignation.Text))
+    //         .ReturnsAsync(warehouse);
+    //     var _service = new WarehouseService(_unitOfWorkMock.Object, _repoMock.Object);
+    //     var get_warehouse = await _service.InactivateAsync(warehouse.Id);
+    //
+    //     Assert.Equal("Inactive", get_warehouse.Status);
+    // }
+    //
+    // [Fact]
+    // public async Task Activate() 
+    // {
+    //     var warehouse = Warehouse();
+    //     this._repoMock.Setup(repo => repo.GetByDesignationAsync(warehouse.WarehouseDesignation.Text))
+    //         .ReturnsAsync(warehouse);
+    //     var _service = new WarehouseService(_unitOfWorkMock.Object, _repoMock.Object);
+    //     var get_warehouse = await _service.ActivateAsync(warehouse.WarehouseIdentifier.WarehouseIdentifier);
+    //
+    //     Assert.Equal("Active", get_warehouse.Status);
+    // }
     [Fact]
     public async Task AddAsyncTest()
     {

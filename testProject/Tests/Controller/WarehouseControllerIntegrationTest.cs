@@ -26,12 +26,14 @@ public class WarehouseControllerIntegrationTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
+
         
         var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
         var warehouseList = new List<Warehouse> { warehouse };
@@ -100,12 +102,14 @@ public class WarehouseControllerIntegrationTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
+
         
         var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
         var warehouseList = new List<Warehouse> { warehouse };
@@ -137,13 +141,14 @@ public class WarehouseControllerIntegrationTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
-        
+            postalCode, country, latitude, longitude, altitude,status);
+
         var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
         var warehouseList = new List<Warehouse> { warehouse };
         
@@ -174,12 +179,14 @@ public class WarehouseControllerIntegrationTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
+
         
         var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
         var warehouseList = new List<Warehouse> { warehouse };
@@ -211,12 +218,14 @@ public class WarehouseControllerIntegrationTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
+
         
         var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
         var warehouseList = new List<Warehouse> { warehouse };
@@ -248,12 +257,14 @@ public class WarehouseControllerIntegrationTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
+
         
         var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
         var warehouseList = new List<Warehouse> { warehouse };
@@ -285,12 +296,14 @@ public class WarehouseControllerIntegrationTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
+
         
         var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
         var warehouseList = new List<Warehouse> { warehouse };
@@ -301,6 +314,81 @@ public class WarehouseControllerIntegrationTest
         var controller = new WarehousesController(warehouseService);
         
         var actual = await controller.SoftDelete(warehouseDto.Id);
+        
+        Assert.NotNull(actual);
+        Assert.NotNull(actual.Result);
+    }
+    
+    public async void Inactivate()
+    {
+        var repo = new Mock<IWarehouseRepository>();
+        var unit = new Mock<IUnitOfWork>();
+
+        var driverServiceMock = new Mock<IWarehouseService>();
+        string warehouseIdentifier = "33N";
+        string designation = "armazem";
+        string street = "rua das oliveiras";
+        int number = 2;
+        string postalCode = "3879-202";
+        string country = "Porto Portugal";
+        float latitude = 72;
+        float longitude = 34;
+        float altitude = 2;
+        string status = "Active";
+
+        var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
+            street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
+
+        var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
+            postalCode, country, latitude, longitude, altitude,status);
+
+        
+        var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
+        var warehouseList = new List<Warehouse> { warehouse };
+        
+        var warehouseService = new WarehouseService(unit.Object, repo.Object);
+
+        repo.Setup(_ => _.GetAllAsync()).ReturnsAsync(warehouseList);
+        var controller = new WarehousesController(warehouseService);
+        
+        var actual = await controller.SoftDeleteById(warehouseIdentifier);
+        
+        Assert.NotNull(actual);
+        Assert.NotNull(actual.Result);
+    }
+    public async void Activate()
+    {
+        var repo = new Mock<IWarehouseRepository>();
+        var unit = new Mock<IUnitOfWork>();
+
+        var driverServiceMock = new Mock<IWarehouseService>();
+        string warehouseIdentifier = "33N";
+        string designation = "armazem";
+        string street = "rua das oliveiras";
+        int number = 2;
+        string postalCode = "3879-202";
+        string country = "Porto Portugal";
+        float latitude = 72;
+        float longitude = 34;
+        float altitude = 2;
+        string status = "Active";
+
+        var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
+            street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
+
+        var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
+            postalCode, country, latitude, longitude, altitude,status);
+
+        
+        var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
+        var warehouseList = new List<Warehouse> { warehouse };
+        
+        var warehouseService = new WarehouseService(unit.Object, repo.Object);
+
+        repo.Setup(_ => _.GetAllAsync()).ReturnsAsync(warehouseList);
+        var controller = new WarehousesController(warehouseService);
+        
+        var actual = await controller.ActivateById(warehouseIdentifier);
         
         Assert.NotNull(actual);
         Assert.NotNull(actual.Result);
@@ -322,12 +410,14 @@ public class WarehouseControllerIntegrationTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
+
         
         var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
         var warehouseList = new List<Warehouse> { warehouse };

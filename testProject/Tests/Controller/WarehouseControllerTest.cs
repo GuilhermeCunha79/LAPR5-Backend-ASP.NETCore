@@ -23,12 +23,13 @@ public class WarehouseControllerTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
 
         var warehouseDtoList = new List<WarehouseDTO> { warehouseDto };
 
@@ -55,12 +56,13 @@ public class WarehouseControllerTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
 
         
         driverServiceMock.Setup(_ => _.GetByWarehouseIdAsync(warehouse.WarehouseIdentifier.WarehouseIdentifier)).ReturnsAsync(warehouseDto);
@@ -86,12 +88,13 @@ public class WarehouseControllerTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
 
         
         driverServiceMock.Setup(_ => _.GetByDesignationAsync(warehouse.WarehouseDesignation.Text)).ReturnsAsync(warehouseDto);
@@ -116,12 +119,13 @@ public class WarehouseControllerTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
         var cwarehouseDto = new CreatingWarehouseDTO( warehouseIdentifier, designation, street, number,
             postalCode, country, latitude, longitude, altitude);
 
@@ -158,9 +162,12 @@ public class WarehouseControllerTest
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
+        
+        string status = "Active";
+
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
         var cwarehouseDto = new CreatingWarehouseDTO( warehouseIdentifier, designation, street, number,
             postalCode, country, latitude, longitude, altitude);
 
@@ -192,12 +199,13 @@ public class WarehouseControllerTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
         var cwarehouseDto = new CreatingWarehouseDTO( warehouseIdentifier, designation, street, number,
             postalCode, country, latitude, longitude, altitude);
 
@@ -229,12 +237,13 @@ public class WarehouseControllerTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
         var cwarehouseDto = new CreatingWarehouseDTO( warehouseIdentifier, designation, street, number,
             postalCode, country, latitude, longitude, altitude);
 
@@ -266,12 +275,13 @@ public class WarehouseControllerTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
         var cwarehouseDto = new CreatingWarehouseDTO( warehouseIdentifier, designation, street, number,
             postalCode, country, latitude, longitude, altitude);
 
@@ -284,6 +294,83 @@ public class WarehouseControllerTest
         var controller = new WarehousesController(warehouseServiceMock.Object);
         
         var actual = await controller.SoftDelete(warehouseDto.Id);
+
+        Assert.NotNull(actual);
+        Assert.NotNull(actual.Result);
+        
+    }
+    
+    
+    // [Fact]
+    // public async void Inactivate()
+    // {
+    //     var warehouseServiceMock = new Mock<IWarehouseService>();
+    //     string warehouseIdentifier = "09N";
+    //     string designation = "armazem";
+    //     string street = "rua das oliveiras";
+    //     int number = 2;
+    //     string postalCode = "3879-202";
+    //     string country = "Porto Portugal";
+    //     float latitude = 72;
+    //     float longitude = 34;
+    //     float altitude = 2;
+    //     string status = "Active";
+    //
+    //     var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
+    //         street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
+    //
+    //     var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
+    //         postalCode, country, latitude, longitude, altitude,status);
+    //     var cwarehouseDto = new CreatingWarehouseDTO( warehouseIdentifier, designation, street, number,
+    //         postalCode, country, latitude, longitude, altitude);
+    //
+    //     
+    //    
+    //     warehouseServiceMock.Setup (_ => _.GetByIdAsync (warehouse.Id)).ReturnsAsync (warehouseDto);
+    //     warehouseServiceMock.Setup (_ => _.AddAsync (cwarehouseDto)).ReturnsAsync (warehouseDto);
+    //
+    //
+    //     var controller = new WarehousesController(warehouseServiceMock.Object);
+    //     
+    //     var actual = await controller.SoftDeleteById(warehouseIdentifier);
+    //
+    //     Assert.NotNull(actual);
+    //     Assert.NotNull(actual.Result);
+    //     
+    // }
+    
+    [Fact]
+    public async void Activate()
+    {
+        var warehouseServiceMock = new Mock<IWarehouseService>();
+        string warehouseIdentifier = "09N";
+        string designation = "armazem";
+        string street = "rua das oliveiras";
+        int number = 2;
+        string postalCode = "3879-202";
+        string country = "Porto Portugal";
+        float latitude = 72;
+        float longitude = 34;
+        float altitude = 2;
+        string status = "Active";
+
+        var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
+            street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
+
+        var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
+            postalCode, country, latitude, longitude, altitude,status);
+        var cwarehouseDto = new CreatingWarehouseDTO( warehouseIdentifier, designation, street, number,
+            postalCode, country, latitude, longitude, altitude);
+
+        
+       
+        warehouseServiceMock.Setup (_ => _.GetByIdAsync (warehouse.Id)).ReturnsAsync (warehouseDto);
+        warehouseServiceMock.Setup (_ => _.AddAsync (cwarehouseDto)).ReturnsAsync (warehouseDto);
+
+
+        var controller = new WarehousesController(warehouseServiceMock.Object);
+        
+        var actual = await controller.ActivateById(warehouseIdentifier);
 
         Assert.NotNull(actual);
         Assert.NotNull(actual.Result);
@@ -303,12 +390,13 @@ public class WarehouseControllerTest
         float latitude = 72;
         float longitude = 34;
         float altitude = 2;
+        string status = "Active";
 
         var warehouse = new Warehouse(new WarehouseId(warehouseIdentifier), new WarehouseDesignation(designation),
             street, number, postalCode, country, latitude, longitude, new Altitude(altitude));
 
         var warehouseDto = new WarehouseDTO(warehouse.Id.AsGuid(), warehouseIdentifier, designation, street, number,
-            postalCode, country, latitude, longitude, altitude);
+            postalCode, country, latitude, longitude, altitude,status);
 
         var cwarehouseDto = new CreatingWarehouseDTO( warehouseIdentifier, designation, street, number,
             postalCode, country, latitude, longitude, altitude);
