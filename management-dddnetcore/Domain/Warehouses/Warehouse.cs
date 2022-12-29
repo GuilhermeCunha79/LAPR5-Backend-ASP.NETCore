@@ -82,10 +82,20 @@ namespace DDDNetCore.Domain.Warehouses
         {
             if (!Active)
             {
-                throw new BusinessRuleValidationException("User already inactive");
+                throw new BusinessRuleValidationException("Warehouse already inactive");
             }
 
             Active = false;
+        }
+
+        public void MarkAsAtive()
+        {
+            if (Active)
+            {
+                throw new BusinessRuleValidationException("Warehouse already Active");
+            }
+
+            Active = true;
         }
     }
 }

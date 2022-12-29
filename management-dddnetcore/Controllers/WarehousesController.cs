@@ -68,7 +68,9 @@ namespace DDDSample1.Controllers
 
             return warehouse;
         }
+        
 
+        
         // POST: api/Warehouses
         [HttpPost("/api/Warehouses")]
         public async Task<ActionResult<WarehouseDTO>> Create(CreatingWarehouseDTO dto)
@@ -128,6 +130,22 @@ namespace DDDSample1.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+        
+        // Activate: api/Warehouses/ByIdentifier/5
+        [HttpPatch("Activate/ByIdentifier/{warehouseIdentifier}")]
+        public async Task<ActionResult<WarehouseDTO>> ActivateById(string warehouseIdentifier)
+        {
+            
+            var warehouse = await _service.ActivateAsync(warehouseIdentifier);
+
+            if (warehouse == null)
+            {
+                return NotFound();
+            }
+
+            return CreatedAtAction(nameof(GetById), new { id = warehouse.Id }, warehouse);
+        }
+
 
         // PUT: api/Warehouses/5
         [HttpPut("ByIdentifier/{warehouseIdentifier}")]
@@ -153,6 +171,23 @@ namespace DDDSample1.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+        
+        // Inactivate: api/Warehouses/ByIdentifier/5
+        [HttpDelete("ByIdentifier/{warehouseIdentifier}")]
+        public async Task<ActionResult<WarehouseDTO>> SoftDeleteById(string warehouseIdentifier)
+        {
+            var warehouse = await _service.GetByWarehouseIdAsync(warehouseIdentifier);
+            
+            var warehouse1 = await _service.InactivateAsync(new Identifier(warehouse.Id));
+
+            if (warehouse1 == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(warehouse1);
+        }
+
 
         // Inactivate: api/Warehouses/5
         [HttpDelete("{id}")]
@@ -167,6 +202,8 @@ namespace DDDSample1.Controllers
 
             return Ok(warehouse);
         }
+        
+       
 
         // DELETE: api/Warehouses/5
         [HttpDelete("{id}/hard")]

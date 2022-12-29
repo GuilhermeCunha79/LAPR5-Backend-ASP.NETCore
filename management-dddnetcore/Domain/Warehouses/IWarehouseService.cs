@@ -19,6 +19,8 @@ public interface IWarehouseService
 
     Task<WarehouseDTO> UpdateByWarehouseIdAsync(WarehouseDTO dto);
     Task<WarehouseDTO> InactivateAsync(Identifier id);
+    
+    Task<WarehouseDTO> ActivateAsync(string id);
 
     Task<WarehouseDTO> DeleteAsync(Identifier id);
 }

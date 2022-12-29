@@ -14,10 +14,11 @@ namespace DDDSample1.Domain.Warehouses
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public float Altitude { get; set; }
+        public string Status { get; set; }
 
         public WarehouseDTO(Guid id, string warehouseIdentifier, string designation, string street, int number,
             string postalCode, string country,
-            float latitude, float longitude, float altitude)
+            float latitude, float longitude, float altitude, string status)
         {
             Id = id;
             WarehouseIdentifier = warehouseIdentifier;
@@ -29,6 +30,7 @@ namespace DDDSample1.Domain.Warehouses
             Latitude = latitude;
             Longitude = longitude;
             Altitude = altitude;
+            Status = status;
         }
     }
 }

@@ -17,10 +17,10 @@ namespace DDDSample1.Infrastructure.Warehouses
         {
             _context = context;
         }
-
+        
         public async Task<Warehouse> GetByWarehouseIdAsync(string warehouseIdentifier)
         {
-            return await _context.Warehouses.Where(x => warehouseIdentifier.Equals(x.WarehouseIdentifier.WarehouseIdentifier) && x.Active).FirstOrDefaultAsync();
+            return await _context.Warehouses.Where(x => warehouseIdentifier.Equals(x.WarehouseIdentifier.WarehouseIdentifier)).FirstOrDefaultAsync();
 
         }
 

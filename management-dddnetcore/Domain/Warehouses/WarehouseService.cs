@@ -20,15 +20,29 @@ namespace DDDSample1.Domain.Warehouses
         {
             var list = await this._repo.GetAllAsync();
 
-            List<WarehouseDTO> listDto = list.ConvertAll(warehouse =>
+            List<WarehouseDTO> listDto;
+
+
+            listDto = list.ConvertAll(warehouse =>
                 new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseIdentifier.ToString(),
                     warehouse.WarehouseDesignation.ToString(),
                     warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
                     warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
                     warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
-                    warehouse.Altitude.AltitudeValue));
-
+                    warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active)));
             return listDto;
+        }
+
+        private string CheckStatus(bool status)
+        {
+            if (status)
+            {
+                return "Active";
+            }
+            else
+            {
+                return "Inactive";
+            }
         }
 
         public async Task<WarehouseDTO> GetByIdAsync(Identifier id)
@@ -38,12 +52,13 @@ namespace DDDSample1.Domain.Warehouses
             if (warehouse == null)
                 return null;
 
+
             return new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseIdentifier.ToString(),
                 warehouse.WarehouseDesignation.ToString(),
                 warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
                 warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
                 warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
-                warehouse.Altitude.AltitudeValue);
+                warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active));
         }
 
         public async Task<WarehouseDTO> GetByWarehouseIdAsync(string warehouseIdentifier)
@@ -53,12 +68,13 @@ namespace DDDSample1.Domain.Warehouses
             if (warehouse == null)
                 return null;
 
+
             return new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseIdentifier.ToString(),
                 warehouse.WarehouseDesignation.ToString(),
                 warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
                 warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
                 warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
-                warehouse.Altitude.AltitudeValue);
+                warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active));
         }
 
         public async Task<WarehouseDTO> GetByDesignationAsync(string designation)
@@ -68,12 +84,13 @@ namespace DDDSample1.Domain.Warehouses
             if (warehouse == null)
                 return null;
 
+
             return new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseIdentifier.ToString(),
                 warehouse.WarehouseDesignation.ToString(),
                 warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
                 warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
                 warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
-                warehouse.Altitude.AltitudeValue);
+                warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active));
         }
 
         public async Task<WarehouseDTO> AddAsync(CreatingWarehouseDTO dto)
@@ -86,12 +103,13 @@ namespace DDDSample1.Domain.Warehouses
 
             await this._unitOfWork.CommitAsync();
 
+
             return new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseIdentifier.ToString(),
                 warehouse.WarehouseDesignation.ToString(),
                 warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
                 warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
                 warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
-                warehouse.Altitude.AltitudeValue);
+                warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active));
         }
 
         public async Task<WarehouseDTO> UpdateAsync(WarehouseDTO dto)
@@ -108,12 +126,13 @@ namespace DDDSample1.Domain.Warehouses
 
             await this._unitOfWork.CommitAsync();
 
+
             return new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseIdentifier.ToString(),
                 warehouse.WarehouseDesignation.ToString(),
                 warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
                 warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
                 warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
-                warehouse.Altitude.AltitudeValue);
+                warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active));
         }
 
         public async Task<WarehouseDTO> UpdateByWarehouseIdAsync(WarehouseDTO dto)
@@ -130,12 +149,13 @@ namespace DDDSample1.Domain.Warehouses
 
             await this._unitOfWork.CommitAsync();
 
+
             return new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseIdentifier.ToString(),
                 warehouse.WarehouseDesignation.ToString(),
                 warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
                 warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
                 warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
-                warehouse.Altitude.AltitudeValue);
+                warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active));
         }
 
         public async Task<WarehouseDTO> InactivateAsync(Identifier id)
@@ -149,13 +169,35 @@ namespace DDDSample1.Domain.Warehouses
 
             await this._unitOfWork.CommitAsync();
 
+
             return new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseIdentifier.ToString(),
                 warehouse.WarehouseDesignation.ToString(),
                 warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
                 warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
                 warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
-                warehouse.Altitude.AltitudeValue);
+                warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active));
         }
+
+        public async Task<WarehouseDTO> ActivateAsync(string id)
+        {
+            var warehouse = await this._repo.GetByWarehouseIdAsync(id);
+
+            if (warehouse == null)
+                return null;
+
+            warehouse.MarkAsAtive();
+
+            await this._unitOfWork.CommitAsync();
+
+
+            return new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseIdentifier.ToString(),
+                warehouse.WarehouseDesignation.ToString(),
+                warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
+                warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
+                warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
+                warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active));
+        }
+
 
         public async Task<WarehouseDTO> DeleteAsync(Identifier id)
         {
@@ -170,12 +212,13 @@ namespace DDDSample1.Domain.Warehouses
             this._repo.Remove(warehouse);
             await this._unitOfWork.CommitAsync();
 
+
             return new WarehouseDTO(warehouse.Id.AsGuid(), warehouse.WarehouseDesignation.ToString(),
                 warehouse.WarehouseDesignation.ToString(),
                 warehouse.WarehouseAddress.Street, warehouse.WarehouseAddress.Number,
                 warehouse.WarehouseAddress.PostalCode, warehouse.WarehouseAddress.Country,
                 warehouse.WarehouseCoordinates.Latitude, warehouse.WarehouseCoordinates.Longitude,
-                warehouse.Altitude.AltitudeValue);
+                warehouse.Altitude.AltitudeValue, CheckStatus(warehouse.Active));
         }
     }
 }
