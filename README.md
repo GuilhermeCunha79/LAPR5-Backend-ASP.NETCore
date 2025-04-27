@@ -124,4 +124,12 @@ This project includes configuration for two CI/CD pipelines:
 - **Azure DevOps**: Defined in `azure-pipelines.yml` to build, test, and publish artifacts
 - **Bitbucket Pipelines**: Defined in `bitbucket-pipelines.yml` for a similar CI workflow
 
+## 👥 Contributors
 
+This project was developed by ISEP students from Group 70 (2022):
+- Guilherme Cunha
+- Beatriz Cardoso
+- Hugo Carvalho
+- Érica Lopes
+
+---
